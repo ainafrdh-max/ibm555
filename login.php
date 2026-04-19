@@ -11,10 +11,10 @@ if (isset($_POST['login'])) {
 
     if ($user && password_verify($password, $user['password'])) {
 
-        $_SESSION['user_id'] = $user['id']; // ✅ STORE USER ID
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
 
-        header("Location: homepage.php"); // ✅ REDIRECT
+        header("Location: homepage.php");
         exit();
 
     } else {
@@ -24,27 +24,85 @@ if (isset($_POST['login'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f5f5f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.login-card {
+    width: 360px;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+.login-title {
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.form-control {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    padding-left: 0;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #000;
+}
+
+.btn-minimal {
+    background: #000;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.btn-minimal:hover {
+    background: #333;
+}
+
+.small-text {
+    font-size: 0.9rem;
+    color: #777;
+}
+</style>
+
 </head>
 
 <body class="d-flex justify-content-center align-items-center vh-100">
 
-<form method="POST" class="p-4 shadow rounded" style="width:350px;">
-<h3 class="text-center mb-3">Login</h3>
+<div class="login-card">
 
-<input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
-<input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+    <h4 class="text-center login-title">Welcome back</h4>
 
-<button name="login" class="btn btn-dark w-100">Login</button>
+    <form method="POST">
 
-<p class="mt-3 text-center">
-No account? <a href="register.php">Register</a>
-</p>
+        <input type="email" name="email" class="form-control mb-4" placeholder="Email" required>
 
-</form>
+        <input type="password" name="password" class="form-control mb-4" placeholder="Password" required>
+
+        <button name="login" class="btn btn-minimal w-100">Login</button>
+
+        <p class="mt-4 text-center small-text">
+            No account? <a href="register.php">Create one</a>
+        </p>
+
+    </form>
+
+</div>
 
 </body>
 </html>
