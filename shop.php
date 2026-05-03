@@ -2,301 +2,367 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop – Blank Perfume</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/homestyle.css">
+
   <style>
-    .page-hero {
-      background: #e8f7d0;
-      padding: 60px 0 40px;
-      text-align: center;
-    }
-    .page-hero h1 {
-      font-size: 52px;
-      letter-spacing: -1px;
-    }
-    .page-hero p {
-      font-size: 16px;
-      opacity: 0.65;
+    body {
+      background: #f9f9f9;
     }
 
-    /* Filter pills */
+    .page-hero {
+      background: linear-gradient(135deg, #e8f7d0, #f6ffe9);
+      padding: 70px 20px 50px;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: 52px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .page-hero p {
+      color: #555;
+      font-size: 16px;
+    }
+
+    /* Filter */
     .filter-bar {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 30px 0 10px;
+      padding: 30px 0;
     }
+
     .filter-pill {
       border: 1.5px solid #000;
-      background: transparent;
+      background: #fff;
       border-radius: 999px;
-      padding: 6px 20px;
+      padding: 8px 22px;
       font-size: 13px;
-      letter-spacing: 1px;
+      font-weight: 600;
       cursor: pointer;
-      transition: .2s;
+      transition: 0.25s ease;
     }
-    .filter-pill:hover, .filter-pill.active {
+
+    .filter-pill:hover,
+    .filter-pill.active {
       background: #000;
       color: #fff;
     }
 
-    /* Product grid */
+    /* Section */
     .shop-section {
-      padding: 60px 0 90px;
-      background: #fff;
+      padding: 20px 0 80px;
     }
-    .product-card {
-      border: none;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: transform .3s, box-shadow .3s;
-      background: #fff;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    }
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-    }
-    .product-img-wrap {
-      background: #e8f7d0;
+
+    .product-type-title {
+      font-size: 13px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
       display: flex;
       align-items: center;
-      justify-content: center;
-      height: 260px;
+      gap: 12px;
+      margin: 45px 0 25px;
+    }
+
+    .product-type-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+
+    /* Card */
+    .product-card {
+      border: none;
+      border-radius: 22px;
       overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      transition: 0.3s ease;
+      height: 100%;
+    }
+
+    .product-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-img-wrap {
+      background: #eef9de;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
+      padding: 20px;
     }
+
     .product-img-wrap img {
-      height: 200px;
+      max-height: 190px;
+      width: auto;
       object-fit: contain;
-      transition: transform .4s;
+      transition: 0.3s;
     }
-    .product-card:hover .product-img-wrap img {
+
+    .product-card:hover img {
       transform: scale(1.06);
     }
-    .badge-new {
+
+    .product-type-badge {
       position: absolute;
       top: 14px;
       left: 14px;
       background: #000;
       color: #fff;
-      font-size: 11px;
-      letter-spacing: 1px;
-      padding: 3px 10px;
+      font-size: 10px;
+      padding: 5px 10px;
       border-radius: 999px;
+      letter-spacing: 1px;
     }
+
     .product-body {
       padding: 20px;
     }
+
     .product-body h6 {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 4px;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
-    .product-body .scent-note {
-      font-size: 12px;
+
+    .variant-note {
       color: #777;
-      letter-spacing: .5px;
+      font-size: 14px;
       margin-bottom: 12px;
     }
-    .product-body .price {
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .btn-add {
-      background: #000;
-      color: #fff;
-      border: none;
+
+    .strength-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
       border-radius: 999px;
-      padding: 8px 20px;
-      font-size: 13px;
-      transition: .2s;
+      background: #f3f3f3;
+      margin-right: 6px;
+      margin-top: 5px;
     }
-    .btn-add:hover {
-      background: #333;
+
+    /* CTA */
+    .enquire-section {
+      background: linear-gradient(135deg, #e8f7d0, #f7ffe8);
+      padding: 70px 20px;
+      text-align: center;
+    }
+
+    .enquire-section h3 {
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    .enquire-section p {
+      color: #555;
+      margin: 12px 0 25px;
+    }
+
+    .btn-enquire,
+    .btn-enquire-outline {
+      padding: 13px 30px;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      margin: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.25s;
+    }
+
+    .btn-enquire {
+      background: #000;
       color: #fff;
     }
 
-    /* Toast */
-    .cart-toast {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
+    .btn-enquire:hover {
+      background: #222;
+      color: #fff;
+    }
+
+    .btn-enquire-outline {
+      border: 1.5px solid #000;
+      color: #000;
+      background: transparent;
+    }
+
+    .btn-enquire-outline:hover {
       background: #000;
       color: #fff;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-size: 14px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: .3s;
-      z-index: 9999;
-      pointer-events: none;
     }
-    .cart-toast.show {
-      opacity: 1;
-      transform: translateY(0);
+
+    @media(max-width:768px) {
+      .page-hero h1 {
+        font-size: 38px;
+      }
+
+      .product-img-wrap {
+        height: 220px;
+      }
     }
   </style>
 </head>
+
 <body>
+
   <?php include 'partials/navbar.php'; ?>
 
   <!-- Hero -->
   <div class="page-hero">
-    <h1>Our Collection</h1>
-    <p>Discover your signature scent</p>
+    <h1>Our Products</h1>
+    <p>Simple scents for your most personal space.</p>
   </div>
 
-  <!-- Filters -->
-  <div class="filter-bar container">
-    <button class="filter-pill active" onclick="filterProducts('all', this)">All</button>
-    <button class="filter-pill" onclick="filterProducts('floral', this)">Floral</button>
-    <button class="filter-pill" onclick="filterProducts('woody', this)">Woody</button>
-    <button class="filter-pill" onclick="filterProducts('fresh', this)">Fresh</button>
-    <button class="filter-pill" onclick="filterProducts('oriental', this)">Oriental</button>
+  <!-- Filter -->
+  <div class="container">
+    <div class="filter-bar">
+      <button class="filter-pill active" onclick="filterProducts('all', this)">All</button>
+      <button class="filter-pill" onclick="filterProducts('gel', this)">Blank Gel</button>
+      <button class="filter-pill" onclick="filterProducts('liquid', this)">Blank Liquid</button>
+    </div>
   </div>
 
   <!-- Products -->
   <section class="shop-section">
     <div class="container">
-      <div class="row g-4" id="product-grid">
 
-        <!-- Product 1 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="floral">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <span class="badge-new">NEW</span>
-              <img src="img/blank-rose.png" alt="Blank Rose">
+      <!-- GEL -->
+      <div class="category-group" data-group="gel">
+        <p class="product-type-title">🫙 Blank Gel</p>
+
+        <div class="row g-4">
+          <div class="col-md-4 col-sm-6 product-item" data-category="gel">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <span class="product-type-badge">Blank Gel</span>
+                <img src="img/blank-black-rose.png">
+              </div>
+              <div class="product-body">
+                <h6>Sweet Nectar</h6>
+                <div class="variant-note">Black Rose</div>
+                <span class="strength-tag">🌸 Soft</span>
+                <span class="strength-tag">🔥 Strong</span>
+              </div>
             </div>
-            <div class="product-body">
-              <h6>Blank Rose</h6>
-              <div class="scent-note">Rose · Peony · Musk</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 189</span>
-                <button class="btn-add" onclick="addToCart('Blank Rose')">Add to Cart</button>
+          </div>
+
+          <div class="col-md-4 col-sm-6 product-item" data-category="gel">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <span class="product-type-badge">Blank Gel</span>
+                <img src="img/blank-black.png">
+              </div>
+              <div class="product-body">
+                <h6>Dreamy Melon</h6>
+                <div class="variant-note">Black</div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Product 2 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="woody">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <img src="img/blank-black.png" alt="Blank Noir">
+      <!-- LIQUID -->
+      <div class="category-group" data-group="liquid">
+        <p class="product-type-title">💧 Blank Liquid</p>
+
+        <div class="row g-4">
+          <div class="col-md-4 col-sm-6 product-item" data-category="liquid">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <span class="product-type-badge">Blank Liquid</span>
+                <img src="img/blank-lemon.png">
+              </div>
+              <div class="product-body">
+                <h6>Blank Liquid</h6>
+                <div class="variant-note">Lemon</div>
+              </div>
             </div>
-            <div class="product-body">
-              <h6>Blank Noir</h6>
-              <div class="scent-note">Oud · Cedarwood · Amber</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 219</span>
-                <button class="btn-add" onclick="addToCart('Blank Noir')">Add to Cart</button>
+          </div>
+
+          <div class="col-md-4 col-sm-6 product-item" data-category="liquid">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <span class="product-type-badge">Blank Liquid</span>
+                <img src="img/blank-rose.png">
+              </div>
+              <div class="product-body">
+                <h6>Blank Liquid</h6>
+                <div class="variant-note">Rose</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-6 product-item" data-category="liquid">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <span class="product-type-badge">Blank Liquid</span>
+                <img src="img/blank-summer.png">
+              </div>
+              <div class="product-body">
+                <h6>Blank Liquid</h6>
+                <div class="variant-note">Summer</div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Product 3 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="fresh">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <span class="badge-new">NEW</span>
-              <img src="img/blank-lemon.png" alt="Blank Citrus">
-            </div>
-            <div class="product-body">
-              <h6>Blank Citrus</h6>
-              <div class="scent-note">Lemon · Bergamot · White Tea</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 169</span>
-                <button class="btn-add" onclick="addToCart('Blank Citrus')">Add to Cart</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="oriental">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <img src="img/blank-rose.png" alt="Blank Velvet">
-            </div>
-            <div class="product-body">
-              <h6>Blank Velvet</h6>
-              <div class="scent-note">Vanilla · Sandalwood · Jasmine</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 199</span>
-                <button class="btn-add" onclick="addToCart('Blank Velvet')">Add to Cart</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="woody">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <img src="img/blank-black.png" alt="Blank Smoke">
-            </div>
-            <div class="product-body">
-              <h6>Blank Smoke</h6>
-              <div class="scent-note">Vetiver · Birch · Black Pepper</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 229</span>
-                <button class="btn-add" onclick="addToCart('Blank Smoke')">Add to Cart</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="col-md-4 col-sm-6 product-item" data-category="floral">
-          <div class="product-card">
-            <div class="product-img-wrap">
-              <img src="img/blank-lemon.png" alt="Blank Bloom">
-            </div>
-            <div class="product-body">
-              <h6>Blank Bloom</h6>
-              <div class="scent-note">Lily · Freesia · Green Leaves</div>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="price">RM 179</span>
-                <button class="btn-add" onclick="addToCart('Blank Bloom')">Add to Cart</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /row -->
     </div>
   </section>
 
-  <!-- Toast notification -->
-  <div class="cart-toast" id="cartToast">✓ Added to cart</div>
+  <!-- CTA -->
+  <div class="enquire-section">
+    <h3>Interested in our products?</h3>
+    <p>Contact us to place an order or find your nearest agent.</p>
+
+    <a href="https://wa.me/601155098234" class="btn-enquire" target="_blank">
+      <i class="bi bi-whatsapp"></i> WhatsApp Us
+    </a>
+
+    <a href="mailto:blankcarfragrance@gmail.com" class="btn-enquire-outline">
+      <i class="bi bi-envelope-fill"></i> Email Us
+    </a>
+  </div>
 
   <?php include 'partials/footer.php'; ?>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
     function filterProducts(category, btn) {
       document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.product-item').forEach(item => {
-        item.style.display = (category === 'all' || item.dataset.category === category) ? '' : 'none';
+
+      document.querySelectorAll('.category-group').forEach(group => {
+        if (category === 'all') {
+          group.style.display = 'block';
+        } else {
+          group.style.display = group.dataset.group === category ? 'block' : 'none';
+        }
       });
     }
-
-    function addToCart(name) {
-      const toast = document.getElementById('cartToast');
-      toast.textContent = `✓ ${name} added to cart`;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    }
   </script>
+
 </body>
+
 </html>

@@ -264,12 +264,12 @@
   <section class="faq-section">
     <div class="container">
       <div class="faq-group" id="faq-container">
+        <div class="accordion" id="mainAccordion">
 
-        <!-- SHIPPING -->
-        <p class="faq-group-title">📦 Shipping</p>
+          <!-- SHIPPING -->
+          <p class="faq-group-title">📦 Shipping</p>
 
-        <div class="accordion faq-item" data-category="shipping">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="shipping">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans1">
                 How long does shipping take?
@@ -281,10 +281,8 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="accordion faq-item" data-category="shipping">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="shipping">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans2">
                 How much does shipping cost?
@@ -297,10 +295,8 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="accordion faq-item" data-category="shipping">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="shipping">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans3">
                 Where do you ship to?
@@ -314,13 +310,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- PRODUCT LIFESPAN -->
-        <p class="faq-group-title">🕐 Product Lifespan</p>
+          <!-- PRODUCT LIFESPAN -->
+          <p class="faq-group-title">🕐 Product Lifespan</p>
 
-        <div class="accordion faq-item" data-category="product">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="product">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans4">
                 How long do the products last?
@@ -333,13 +327,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- WARRANTY -->
-        <p class="faq-group-title">🛡️ Warranty</p>
+          <!-- WARRANTY -->
+          <p class="faq-group-title">🛡️ Warranty</p>
 
-        <div class="accordion faq-item" data-category="warranty">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="warranty">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans5">
                 Do you provide a warranty?
@@ -360,13 +352,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- HOW TO USE -->
-        <p class="faq-group-title">📖 How to Use</p>
+          <!-- HOW TO USE -->
+          <p class="faq-group-title">📖 How to Use</p>
 
-        <div class="accordion faq-item" data-category="how-to-use">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="how-to-use">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans6">
                 How do I use Blank Gel?
@@ -385,10 +375,8 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="accordion faq-item" data-category="how-to-use">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="how-to-use">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans7">
                 How do I use Blank Liquid?
@@ -406,13 +394,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- AGENT -->
-        <p class="faq-group-title">🤝 Becoming an Agent</p>
+          <!-- AGENT -->
+          <p class="faq-group-title">🤝 Becoming an Agent</p>
 
-        <div class="accordion faq-item" data-category="agent">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="agent">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans8">
                 Can I become an authorized agent?
@@ -430,13 +416,11 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- RESTOCK -->
-        <p class="faq-group-title">🔄 Restock</p>
+          <!-- RESTOCK -->
+          <p class="faq-group-title">🔄 Restock</p>
 
-        <div class="accordion faq-item" data-category="restock">
-          <div class="accordion-item">
+          <div class="accordion-item faq-item" data-category="restock">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ans9">
                 When will out-of-stock items be restocked?
@@ -454,8 +438,8 @@
               </div>
             </div>
           </div>
-        </div>
 
+        </div><!-- /accordion -->
       </div><!-- /faq-group -->
 
       <p id="noResults" class="text-center text-muted mt-4" style="display:none;">No questions found. Try a different
@@ -481,13 +465,25 @@
   <?php include 'partials/footer.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Close all other open panels when one opens
+    document.addEventListener('show.bs.collapse', function (e) {
+      document.querySelectorAll('.accordion-collapse.show').forEach(function (openPanel) {
+        if (openPanel !== e.target) {
+          bootstrap.Collapse.getInstance(openPanel).hide();
+        }
+      });
+    });
+
     function filterTab(category, btn) {
       document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('faqSearch').value = '';
+      // Close any open panel first
+      document.querySelectorAll('.accordion-collapse.show').forEach(p => bootstrap.Collapse.getInstance(p).hide());
       document.querySelectorAll('.faq-item').forEach(item => {
         item.classList.toggle('hidden', category !== 'all' && item.dataset.category !== category);
       });
+      updateGroupTitles();
       checkNoResults();
     }
 
@@ -498,7 +494,23 @@
       document.querySelectorAll('.faq-item').forEach(item => {
         item.classList.toggle('hidden', q.length > 0 && !item.innerText.toLowerCase().includes(q));
       });
+      updateGroupTitles();
       checkNoResults();
+    }
+
+    function updateGroupTitles() {
+      document.querySelectorAll('.faq-group-title').forEach(title => {
+        let next = title.nextElementSibling;
+        let hasVisible = false;
+        while (next && !next.classList.contains('faq-group-title')) {
+          if (next.classList.contains('faq-item') && !next.classList.contains('hidden')) {
+            hasVisible = true;
+            break;
+          }
+          next = next.nextElementSibling;
+        }
+        title.style.display = hasVisible ? '' : 'none';
+      });
     }
 
     function checkNoResults() {

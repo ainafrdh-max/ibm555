@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +21,13 @@
       text-align: center;
       padding: 80px 20px 60px;
     }
+
     .about-hero h1 {
       font-size: 56px;
       letter-spacing: -1.5px;
       font-weight: 700;
     }
+
     .about-hero p {
       font-size: 17px;
       opacity: .65;
@@ -37,19 +40,22 @@
       padding: 90px 0;
       background: #fff;
     }
+
     .story-section img {
       width: 100%;
-      height: 420px;
-      object-fit: cover;
+      height: auto;
+      max-height: 600px;
+      object-fit: contain;
       border-radius: 24px;
-      filter: brightness(0.9);
     }
+
     .story-text h2 {
       font-size: 38px;
       font-weight: 700;
       letter-spacing: -1px;
       margin-bottom: 20px;
     }
+
     .story-text p {
       font-size: 15px;
       line-height: 1.85;
@@ -62,25 +68,30 @@
       background: #e8f7d0;
       padding: 90px 0;
     }
+
     .values-section h2 {
       font-size: 38px;
       font-weight: 700;
       letter-spacing: -1px;
       margin-bottom: 50px;
     }
+
     .value-item {
       text-align: center;
       padding: 20px;
     }
+
     .value-icon {
       font-size: 36px;
       margin-bottom: 16px;
       display: block;
     }
+
     .value-item h5 {
       font-weight: 600;
       margin-bottom: 8px;
     }
+
     .value-item p {
       font-size: 14px;
       color: #555;
@@ -91,15 +102,18 @@
       background: #fff;
       padding: 90px 0;
     }
+
     .team-section h2 {
       font-size: 38px;
       font-weight: 700;
       letter-spacing: -1px;
       margin-bottom: 50px;
     }
+
     .team-card {
       text-align: center;
     }
+
     .team-avatar {
       width: 110px;
       height: 110px;
@@ -111,11 +125,13 @@
       margin: 0 auto 16px;
       font-size: 38px;
     }
+
     .team-card h6 {
       font-weight: 600;
       font-size: 16px;
       margin-bottom: 4px;
     }
+
     .team-card p {
       font-size: 13px;
       color: #888;
@@ -128,14 +144,17 @@
       color: #fff;
       padding: 70px 0;
     }
+
     .stat-item {
       text-align: center;
     }
+
     .stat-item .number {
       font-size: 48px;
       font-weight: 700;
       letter-spacing: -2px;
     }
+
     .stat-item .label {
       font-size: 13px;
       letter-spacing: 1px;
@@ -144,6 +163,7 @@
     }
   </style>
 </head>
+
 <body>
   <?php include 'partials/navbar.php'; ?>
 
@@ -151,7 +171,7 @@
   <div class="about-hero">
     <div>
       <h1>Our Story</h1>
-      <p>Born from a love of simplicity. Built for those who wear their identity quietly.</p>
+      <p>Perfuming your most personal space — one car at a time.</p>
     </div>
   </div>
 
@@ -160,13 +180,22 @@
     <div class="container">
       <div class="row align-items-center g-5">
         <div class="col-md-6">
-          <img src="img/blank-rose.png" alt="Our story">
+          <img src="img/blank-founder.png" alt="Blank Resources Founder">
         </div>
         <div class="col-md-6 story-text">
           <h2>Where It All Began</h2>
-          <p>Blank Perfume was founded in 2020 in Kota Bharu, with one simple belief — that a great scent should feel like a second skin, not a statement piece.</p>
-          <p>We were tired of loud fragrances competing for attention. So we stripped everything back. No unnecessary notes. No over-designed bottles. Just the essence of who you are.</p>
-          <p>Every bottle in our collection is the result of months of careful development, using only ethically sourced ingredients from trusted suppliers across France, UAE, and Malaysia.</p>
+          <p>Cars are an incredibly personal space. In this crowded, cluttered world, a car is a mobile chamber that
+            offers the rare luxury of privacy and intimacy. It's where you begin your first step towards a road trip;
+            where you steal kisses, hold hands and whisk a loved one away to a surprise getaway; your last moments of
+            freedom before a long work day begins — and a welcome respite when it ends.</p>
+          <p>In 2021, we established Blank Resources to help people create the personal space they deserve. Focusing on
+            car fragrances upon our launch, we released two products: Blank Gel & Blank Liquid. In just one short year,
+            they sold over <strong>625,000 units</strong> across Southeast Asia — endorsed by familiar names like Syahmi
+            Sazli and Emma Maembong, and winning <strong>The Natural Health Readers' Choice Awards 2021</strong>.</p>
+          <p>Now a company with over <strong>1,000 agents and dropshippers</strong> in Malaysia, Brunei & Singapore, we
+            are ready to expand our range of products — starting with a bespoke line of home fragrances. We continue to
+            be humbled by the amount of love Blank receives, and look forward to perfuming all your sweetest memories.
+          </p>
         </div>
       </div>
     </div>
@@ -179,30 +208,30 @@
       <div class="row g-4">
         <div class="col-md-3 col-6">
           <div class="value-item">
-            <span class="value-icon">🌿</span>
-            <h5>Ethical Sourcing</h5>
-            <p>All ingredients are sustainably and ethically sourced from responsible suppliers.</p>
+            <span class="value-icon">🚗</span>
+            <h5>Your Personal Space</h5>
+            <p>We believe your car deserves to feel as personal and intimate as your home.</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
           <div class="value-item">
-            <span class="value-icon">🧪</span>
-            <h5>Clean Formula</h5>
-            <p>No parabens, no phthalates. Just pure, clean fragrance ingredients.</p>
+            <span class="value-icon">🏆</span>
+            <h5>Award-Winning</h5>
+            <p>Winners of The Natural Health Readers' Choice Awards 2021 — a mark of quality.</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
           <div class="value-item">
-            <span class="value-icon">♻️</span>
-            <h5>Eco Packaging</h5>
-            <p>Our packaging is made from recycled materials and is fully recyclable.</p>
+            <span class="value-icon">🌏</span>
+            <h5>Southeast Asia Reach</h5>
+            <p>Over 625,000 units sold across the region in our very first year.</p>
           </div>
         </div>
         <div class="col-md-3 col-6">
           <div class="value-item">
             <span class="value-icon">🤝</span>
-            <h5>Community First</h5>
-            <p>10% of every sale goes towards supporting local artisan communities.</p>
+            <h5>1,000+ Agents</h5>
+            <p>A thriving network of agents and dropshippers across Malaysia, Brunei & Singapore.</p>
           </div>
         </div>
       </div>
@@ -215,63 +244,26 @@
       <div class="row g-4">
         <div class="col-6 col-md-3">
           <div class="stat-item">
-            <div class="number">6+</div>
-            <div class="label">FRAGRANCES</div>
+            <div class="number">625K+</div>
+            <div class="label">UNITS SOLD</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat-item">
-            <div class="number">5K+</div>
-            <div class="label">HAPPY CUSTOMERS</div>
+            <div class="number">1,000+</div>
+            <div class="label">AGENTS & DROPSHIPPERS</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat-item">
-            <div class="number">4</div>
-            <div class="label">YEARS IN BUSINESS</div>
+            <div class="number">3</div>
+            <div class="label">COUNTRIES</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat-item">
-            <div class="number">100%</div>
-            <div class="label">CRUELTY FREE</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team -->
-  <section class="team-section text-center">
-    <div class="container">
-      <h2>Meet the Team</h2>
-      <div class="row g-4 justify-content-center">
-        <div class="col-md-3 col-6">
-          <div class="team-card">
-            <div class="team-avatar">👩</div>
-            <h6>Aini Rahayu</h6>
-            <p>FOUNDER & CEO</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="team-card">
-            <div class="team-avatar">👨</div>
-            <h6>Haziq Izzat</h6>
-            <p>HEAD PERFUMER</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="team-card">
-            <div class="team-avatar">👩</div>
-            <h6>Nurul Farhana</h6>
-            <p>CREATIVE DIRECTOR</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="team-card">
-            <div class="team-avatar">👨</div>
-            <h6>Arif Syazwan</h6>
-            <p>MARKETING LEAD</p>
+            <div class="number">2021</div>
+            <div class="label">AWARD WINNER</div>
           </div>
         </div>
       </div>
@@ -281,4 +273,5 @@
   <?php include 'partials/footer.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
