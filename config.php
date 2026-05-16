@@ -6,4 +6,7 @@ if ($conn->connect_error) {
 }
 
 session_start();
+
+require_once __DIR__ . '/includes/helpers.php';
+ensure_order_columns($conn);
 ?>

@@ -4,7 +4,7 @@
   exit();
 } ?>
 <?php
-$uid = $_SESSION['user_id'];
+$uid = (int) $_SESSION['user_id'];
 $items = $conn->query("
     SELECT c.id as cart_id, c.quantity, p.id as product_id,
            p.name, p.variant, p.price, p.image, p.type
@@ -17,8 +17,9 @@ while ($r = $items->fetch_assoc()) {
   $rows[] = $r;
   $subtotal += $r['price'] * $r['quantity'];
 }
-$pts = $conn->query("SELECT total_points FROM user_points WHERE user_id=$uid")->fetch_assoc();
-$points = $pts ? $pts['total_points'] : 0;
+$points = user_points_balance($conn, $uid);
+$availableVouchers = get_available_vouchers($conn, $uid);
+$maxPointsRedeem = max_redeemable_points($points, $subtotal);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -262,6 +263,21 @@ $points = $pts ? $pts['total_points'] : 0;
       gap: 8px;
       margin-bottom: 16px;
     }
+
+    .voucher-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .voucher-chip {
+      display: flex; justify-content: space-between; align-items: center;
+      border: 1.5px solid #e8e8e8; border-radius: 12px; padding: 10px 14px;
+      font-size: 13px; cursor: pointer; transition: .2s; background: #fafafa;
+    }
+    .voucher-chip.eligible:hover { border-color: #000; background: #f9fef4; }
+    .voucher-chip.used { opacity: .5; cursor: not-allowed; }
+    .voucher-chip .code { font-weight: 700; letter-spacing: .5px; }
+    .voucher-chip .meta { font-size: 11px; color: #888; }
+    .points-redeem { margin-top: 16px; padding-top: 16px; border-top: 1.5px solid #f0f0f0; }
+    .points-redeem label { font-size: 13px; font-weight: 600; }
+    .points-slider-row { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+    .points-slider-row input[type=range] { flex: 1; }
   </style>
 </head>
 
@@ -289,7 +305,7 @@ $points = $pts ? $pts['total_points'] : 0;
             <h5>Items (<?php echo count($rows); ?>)</h5>
             <?php foreach ($rows as $r): ?>
               <div class="cart-item" id="row-<?php echo $r['cart_id']; ?>">
-                <div class="item-img"><img src="img/<?php echo htmlspecialchars($r['image']); ?>" alt=""></div>
+                <div class="item-img"><img src="<?php echo htmlspecialchars(product_image_src($r['image'])); ?>" alt=""></div>
                 <div style="flex:1;">
                   <div class="item-name"><?php echo htmlspecialchars($r['name']); ?></div>
                   <div class="item-variant"><?php echo htmlspecialchars($r['variant']); ?></div>
@@ -315,13 +331,27 @@ $points = $pts ? $pts['total_points'] : 0;
 
           <!-- Voucher -->
           <div class="section-card">
-            <h5>Voucher Code</h5>
+            <h5>Promo Code <small style="font-weight:400;color:#999;">(one per order, one-time use)</small></h5>
             <div class="voucher-row">
-              <input type="text" class="voucher-input" id="voucherCode" placeholder="Enter voucher code (e.g. WELCOME10)"
+              <input type="text" class="voucher-input" id="voucherCode" placeholder="Enter code"
                 style="text-transform:uppercase;">
-              <button class="btn-apply" onclick="applyVoucher()">Apply</button>
+              <button type="button" class="btn-apply" onclick="applyVoucher()">Apply</button>
             </div>
             <div class="voucher-msg" id="voucherMsg"></div>
+            <p class="mt-3 mb-1" style="font-size:12px;font-weight:600;color:#888;">YOUR AVAILABLE VOUCHERS</p>
+            <div class="voucher-list">
+              <?php foreach ($availableVouchers as $v): ?>
+                <div class="voucher-chip <?php echo $v['eligible'] ? 'eligible' : 'used'; ?>"
+                  <?php if ($v['eligible']): ?>onclick="selectVoucher('<?php echo htmlspecialchars($v['code'], ENT_QUOTES); ?>')"<?php endif; ?>>
+                  <div>
+                    <span class="code"><?php echo htmlspecialchars($v['code']); ?></span>
+                    <?php if ($v['new_user_only']): ?><span class="badge bg-dark ms-1" style="font-size:9px;">NEW USER</span><?php endif; ?>
+                    <div class="meta"><?php echo $v['discount_percent']; ?>% off<?php echo $v['min_order'] > 0 ? ' · min RM ' . number_format($v['min_order'], 2) : ''; ?></div>
+                  </div>
+                  <span class="meta"><?php echo $v['eligible'] ? 'Tap to use' : htmlspecialchars($v['reason']); ?></span>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
 
@@ -337,15 +367,30 @@ $points = $pts ? $pts['total_points'] : 0;
                   id="sumSubtotal"><?php echo number_format($subtotal, 2); ?></span></span></div>
             <div class="summary-row discount" id="discountRow" style="display:none;"><span>Discount (<span
                   id="discPct"></span>%)</span><span>− RM <span id="discAmt">0.00</span></span></div>
+            <div class="summary-row discount" id="pointsRow" style="display:none;"><span>Points</span><span>− RM <span id="pointsDiscAmt">0.00</span></span></div>
             <div class="summary-row"><span>Tax (6% SST)</span><span>RM <span
                   id="sumTax"><?php echo number_format($subtotal * 0.06, 2); ?></span></span></div>
             <div class="summary-row total"><span>Total</span><span>RM <span
                   id="sumTotal"><?php echo number_format($subtotal * 1.06, 2); ?></span></span></div>
 
+            <?php if ($points > 0 && $maxPointsRedeem > 0): ?>
+            <div class="points-redeem">
+              <label>Use points (max <?php echo number_format($maxPointsRedeem); ?>)</label>
+              <div class="points-slider-row">
+                <input type="range" id="pointsSlider" min="0" max="<?php echo $maxPointsRedeem; ?>" value="0" step="100" oninput="onPointsSlider(this.value)">
+                <span id="pointsSliderLabel">0 pts</span>
+              </div>
+              <button type="button" class="btn-apply mt-2" onclick="applyPoints()">Apply Points</button>
+              <div class="voucher-msg" id="pointsMsg"></div>
+            </div>
+            <?php endif; ?>
+
             <form method="POST" action="checkout.php" id="checkoutForm">
               <input type="hidden" name="voucher_code" id="hiddenVoucher" value="">
               <input type="hidden" name="discount_amount" id="hiddenDiscount" value="0">
               <input type="hidden" name="discount_percent" id="hiddenDiscountPct" value="0">
+              <input type="hidden" name="points_redeemed" id="hiddenPointsRedeemed" value="0">
+              <input type="hidden" name="points_discount" id="hiddenPointsDiscount" value="0">
               <button type="submit" class="btn-checkout">Proceed to Checkout →</button>
             </form>
             <div class="text-center mt-3">
@@ -359,96 +404,12 @@ $points = $pts ? $pts['total_points'] : 0;
   </div>
 
   <?php include 'partials/footer.php'; ?>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <?php if (!empty($rows)): ?>
+  <script src="assets/cart-page.js"></script>
   <script>
-    let baseSubtotal = <?php echo $subtotal; ?>;
-    let discountPct = 0;
-    let discountAmt = 0;
-
-    function updateSummary() {
-      const sub = baseSubtotal;
-      const disc = parseFloat((sub * discountPct / 100).toFixed(2));
-      const afterDisc = sub - disc;
-      const tax = parseFloat((afterDisc * 0.06).toFixed(2));
-      const total = afterDisc + tax;
-
-      document.getElementById('sumSubtotal').textContent = sub.toFixed(2);
-      document.getElementById('sumTax').textContent = tax.toFixed(2);
-      document.getElementById('sumTotal').textContent = total.toFixed(2);
-      document.getElementById('earnPts').textContent = Math.floor(sub);
-
-      if (discountPct > 0) {
-        document.getElementById('discountRow').style.display = '';
-        document.getElementById('discPct').textContent = discountPct;
-        document.getElementById('discAmt').textContent = disc.toFixed(2);
-      } else {
-        document.getElementById('discountRow').style.display = 'none';
-      }
-      document.getElementById('hiddenDiscount').value = disc.toFixed(2);
-    }
-
-    function changeQty(cartId, delta, price) {
-      const qtyEl = document.getElementById('qty-' + cartId);
-      let qty = parseInt(qtyEl.textContent) + delta;
-      if (qty < 1) { removeItem(cartId); return; }
-      qtyEl.textContent = qty;
-      document.getElementById('line-' + cartId).textContent = (price * qty).toFixed(2);
-
-      // Recalculate subtotal
-      let newSub = 0;
-      document.querySelectorAll('[id^="qty-"]').forEach(el => {
-        const cid = el.id.replace('qty-', '');
-        const lineEl = document.getElementById('line-' + cid);
-        if (lineEl) newSub += parseFloat(lineEl.textContent);
-      });
-      baseSubtotal = parseFloat(newSub.toFixed(2));
-      updateSummary();
-
-      fetch('cart_action.php', {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `action=update&cart_id=${cartId}&quantity=${qty}`
-      });
-    }
-
-    function removeItem(cartId) {
-      const row = document.getElementById('row-' + cartId);
-      if (!row) return;
-      const lineEl = document.getElementById('line-' + cartId);
-      if (lineEl) baseSubtotal = parseFloat((baseSubtotal - parseFloat(lineEl.textContent)).toFixed(2));
-      row.style.opacity = '0';
-      setTimeout(() => { row.remove(); updateSummary(); }, 300);
-      fetch('cart_action.php', {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `action=remove&cart_id=${cartId}`
-      });
-    }
-
-    function applyVoucher() {
-      const code = document.getElementById('voucherCode').value.trim();
-      const msgEl = document.getElementById('voucherMsg');
-      if (!code) { msgEl.innerHTML = '<span class="voucher-err">Please enter a voucher code.</span>'; return; }
-
-      fetch('apply_voucher.php', {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `code=${encodeURIComponent(code)}&subtotal=${baseSubtotal}`
-      })
-        .then(r => r.json())
-        .then(data => {
-          if (data.success) {
-            discountPct = data.discount_percent;
-            document.getElementById('hiddenVoucher').value = code;
-            document.getElementById('hiddenDiscountPct').value = discountPct;
-            msgEl.innerHTML = `<span class="voucher-ok">✓ ${data.message}</span>`;
-            updateSummary();
-          } else {
-            discountPct = 0;
-            document.getElementById('hiddenVoucher').value = '';
-            msgEl.innerHTML = `<span class="voucher-err">✗ ${data.error}</span>`;
-            updateSummary();
-          }
-        });
-    }
+    initCartPage({ subtotal: <?php echo $subtotal; ?>, pointsBalance: <?php echo (int) $points; ?>, pointsPerRm: <?php echo POINTS_PER_RM; ?> });
   </script>
+  <?php endif; ?>
 </body>
 
 </html>

@@ -434,6 +434,8 @@
                       target="_blank">Blank.malaysia</a></li>
                   <li><strong>Instagram:</strong> <a href="https://instagram.com/blank.malaysia"
                       target="_blank">@blank.malaysia</a></li>
+                  <li><strong>Tiktok:</strong> <a href="https://www.tiktok.com/@blank.my" target="_blank">@blank.my</a>
+                  </li>
                 </ul>
               </div>
             </div>
