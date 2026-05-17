@@ -294,6 +294,7 @@ if (isset($_POST['login'])) {
         <div class="form-inner">
             <h1>Welcome back 👋</h1>
             <p class="subtitle">Sign in to your Blank account</p>
+                 
 
             <?php if (!empty($error)): ?>
                 <div class="error-alert">
@@ -320,8 +321,9 @@ if (isset($_POST['login'])) {
             <div class="divider">or</div>
 
             <p class="register-link">
-                Don't have an account? <a href="register.php">Register now</a>
+                Don't have an account? <a href="register.php">Register now</a><br><br> or <a href="index.php">Return to home</a>
             </p>
+           
         </div>
     </div>
 

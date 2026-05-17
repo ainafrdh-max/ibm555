@@ -258,8 +258,8 @@
                 <img src="img/blank-black-rose.png">
               </div>
               <div class="product-body">
-                <h6>Sweet Nectar</h6>
-                <div class="variant-note">Black Rose</div>
+                <h6>Sweet Nectar/Peach - <b>RM 29.90</b></h6>
+                <div class="variant-note">A sweet, fruity peach fragrance that freshens your space with a smooth, comforting aroma. Available in two variants: Soft for a light, calming scent, and Strong for a richer, longer-lasting, more noticeable fragrance.</div>
                 <span class="strength-tag">🌸 Soft</span>
                 <span class="strength-tag">🔥 Strong</span>
               </div>
@@ -273,8 +273,8 @@
                 <img src="img/blank-black.png">
               </div>
               <div class="product-body">
-                <h6>Dreamy Melon</h6>
-                <div class="variant-note">Black</div>
+                <h6>Dreamy Melon - <b>RM 29.90</b></h6>
+                <div class="variant-note">A fresh and soft honeydew-inspired scent that brings a calming atmosphere to every drive. Smooth, clean, and comforting with just the right touch of sweetness — never too overpowering. Perfect for creating a relaxing, peaceful vibe in your car anytime, anywhere.</div>
               </div>
             </div>
           </div>
@@ -293,8 +293,8 @@
                 <img src="img/blank-lemon.png">
               </div>
               <div class="product-body">
-                <h6>Blank Liquid</h6>
-                <div class="variant-note">Lemon</div>
+                <h6>Honeydew - <b>RM 35.00</b></h6>
+                <div class="variant-note">A bright citrus fragrance that keeps your car feeling clean and energised throughout the day.</div>
               </div>
             </div>
           </div>
@@ -306,8 +306,8 @@
                 <img src="img/blank-rose.png">
               </div>
               <div class="product-body">
-                <h6>Blank Liquid</h6>
-                <div class="variant-note">Rose</div>
+                <h6>Peach - <b>RM 35.00</b></h6>
+                <div class="variant-note">A playful fruity scent blended with a sweet bubble gum twist that instantly brightens your mood. Fresh, fun, and youthful without being too heavy — perfect for adding a cheerful vibe to every drive.</div>
               </div>
             </div>
           </div>
@@ -319,8 +319,8 @@
                 <img src="img/blank-summer.png">
               </div>
               <div class="product-body">
-                <h6>Blank Liquid</h6>
-                <div class="variant-note">Summer</div>
+                <h6>Summer Paradise - <b>RM 35.00</b></h6>
+                <div class="variant-note">A refreshing fruity blend with soft melon notes balanced by hints of peach, lychee, and apple. Lightly sweet, smooth, and tropical — creating a relaxing summer-like atmosphere that feels fresh and clean all day long.</div>
               </div>
             </div>
           </div>
