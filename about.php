@@ -13,7 +13,9 @@
   <style>
     /* Page Hero */
     .about-hero {
-      background: #e8f7d0;
+      background:
+        linear-gradient(135deg, rgba(232, 247, 208, 0.82), rgba(246, 255, 233, 0.88)),
+        url('img/allBlank.png') center / cover no-repeat;
       min-height: 380px;
       display: flex;
       align-items: center;
@@ -23,14 +25,14 @@
     }
 
     .about-hero h1 {
-      font-size: 56px;
+      font-size: clamp(38px, 6vw, 56px);
       letter-spacing: -1.5px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .about-hero p {
       font-size: 17px;
-      opacity: .65;
+      color: #555;
       max-width: 500px;
       margin: 14px auto 0;
     }

@@ -9,6 +9,38 @@ function get_cart_count(mysqli $conn, int $userId): int
     return (int) ($row['c'] ?? 0);
 }
 
+function is_recommended_product(array $product): bool
+{
+    return ($product['type'] ?? '') === 'liquid'
+        && strcasecmp(trim((string) ($product['variant'] ?? '')), 'Peach') === 0;
+}
+
+function get_checkout_recommendations(mysqli $conn, array $cartProductIds, int $limit = 3): array
+{
+    $limit = max(1, min(6, $limit));
+    $exclude = array_map('intval', $cartProductIds);
+    $items = [];
+
+    $recRes = $conn->query("SELECT * FROM products WHERE type = 'liquid' AND variant = 'Peach' AND stock > 0 LIMIT 1");
+    if ($recRes && ($rec = $recRes->fetch_assoc()) && !in_array((int) $rec['id'], $exclude, true)) {
+        $items[] = $rec;
+        $exclude[] = (int) $rec['id'];
+    }
+
+    if (count($items) < $limit) {
+        $excludeSql = $exclude ? implode(',', $exclude) : '0';
+        $need = $limit - count($items);
+        $res = $conn->query("SELECT * FROM products WHERE stock > 0 AND id NOT IN ($excludeSql) ORDER BY type, id LIMIT $need");
+        if ($res) {
+            while ($p = $res->fetch_assoc()) {
+                $items[] = $p;
+            }
+        }
+    }
+
+    return $items;
+}
+
 function product_image_src(?string $filename): string
 {
     $filename = trim((string) $filename);

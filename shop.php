@@ -18,7 +18,9 @@
     }
 
     .page-hero {
-      background: linear-gradient(135deg, #e8f7d0, #f6ffe9);
+      background:
+        linear-gradient(135deg, rgba(232, 247, 208, 0.75), rgba(246, 255, 233, 0.75)),
+        url('img/allBlank.png') center / cover no-repeat;
       padding: 70px 20px 50px;
       text-align: center;
     }
@@ -131,6 +133,32 @@
       padding: 5px 10px;
       border-radius: 999px;
       letter-spacing: 1px;
+    }
+
+    .recommended-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #e8f7d0;
+      color: #000;
+      border: 1.5px solid #000;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .recommended-note {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2a6e00;
+      margin-bottom: 8px;
+    }
+
+    .product-card.recommended {
+      box-shadow: 0 8px 28px rgba(42, 110, 0, 0.14);
+      outline: 1.5px solid #c5e6a8;
     }
 
     .product-body {
@@ -300,13 +328,15 @@
           </div>
 
           <div class="col-md-4 col-sm-6 product-item" data-category="liquid">
-            <div class="product-card">
+            <div class="product-card recommended">
               <div class="product-img-wrap">
                 <span class="product-type-badge">Blank Liquid</span>
+                <span class="recommended-badge"><i class="bi bi-star-fill"></i> Recommended</span>
                 <img src="img/blank-rose.png">
               </div>
               <div class="product-body">
                 <h6>Peach - <b>RM 35.00</b></h6>
+                <p class="recommended-note">Our team’s top pick — most customers love this scent.</p>
                 <div class="variant-note">A playful fruity scent blended with a sweet bubble gum twist that instantly brightens your mood. Fresh, fun, and youthful without being too heavy — perfect for adding a cheerful vibe to every drive.</div>
               </div>
             </div>

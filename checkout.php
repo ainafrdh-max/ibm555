@@ -145,6 +145,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay'])) {
 
 $user = $conn->query("SELECT * FROM users WHERE id = $uid")->fetch_assoc();
 
+$cartProductIds = array_map(fn($r) => (int) $r['product_id'], $rows);
+$alsoLike = get_checkout_recommendations($conn, $cartProductIds, 3);
+
 $fpx_banks = [
   'Maybank2u',
   'CIMB Clicks',
@@ -488,6 +491,103 @@ $fpx_banks = [
     .fpx-option input {
       display: none;
     }
+
+    .also-like-section h5 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .also-like-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .also-like-card {
+      border: 1.5px solid #eee;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: 0.2s;
+      background: #fafafa;
+    }
+
+    .also-like-card:hover {
+      border-color: #000;
+      background: #f9fef4;
+    }
+
+    .also-like-card.recommended-pick {
+      border-color: #c5e6a8;
+      background: #f9fef4;
+    }
+
+    .also-like-img {
+      height: 100px;
+      background: #e8f7d0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .also-like-img img {
+      max-height: 80px;
+      object-fit: contain;
+    }
+
+    .also-like-name {
+      font-weight: 700;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .also-like-variant {
+      font-size: 12px;
+      color: #888;
+      margin: 0;
+    }
+
+    .also-like-price {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .also-like-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #2a6e00;
+      background: #e8f7d0;
+      border-radius: 999px;
+      padding: 3px 8px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .btn-also-add {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: auto;
+    }
+
+    .btn-also-add:hover:not(:disabled) {
+      background: #333;
+    }
+
+    .btn-also-add:disabled {
+      background: #ccc;
+      cursor: wait;
+    }
   </style>
 </head>
 
@@ -552,6 +652,35 @@ $fpx_banks = [
               </div>
             </div>
           </div>
+
+          <?php if (!empty($alsoLike)): ?>
+          <div class="section-card also-like-section">
+            <h5><i class="bi bi-heart"></i> You may also like</h5>
+            <p class="pay-note mb-3">Add these before you pay — popular picks that go well with your order.</p>
+            <div class="also-like-grid">
+              <?php foreach ($alsoLike as $rec):
+                $recImg = product_image_src($rec['image']);
+                $recRecommended = is_recommended_product($rec);
+                ?>
+                <div class="also-like-card<?php echo $recRecommended ? ' recommended-pick' : ''; ?>">
+                  <?php if ($recRecommended): ?>
+                    <span class="also-like-badge"><i class="bi bi-star-fill"></i> Recommended</span>
+                  <?php endif; ?>
+                  <div class="also-like-img">
+                    <img src="<?php echo htmlspecialchars($recImg); ?>" alt="<?php echo htmlspecialchars($rec['variant']); ?>">
+                  </div>
+                  <p class="also-like-name"><?php echo htmlspecialchars($rec['name']); ?></p>
+                  <p class="also-like-variant"><?php echo htmlspecialchars($rec['variant']); ?></p>
+                  <span class="also-like-price">RM <?php echo number_format((float) $rec['price'], 2); ?></span>
+                  <button type="button" class="btn-also-add" data-product-id="<?php echo (int) $rec['id']; ?>"
+                    data-variant="<?php echo htmlspecialchars($rec['variant'], ENT_QUOTES); ?>">
+                    <i class="bi bi-plus-lg"></i> Add to order
+                  </button>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <?php endif; ?>
 
           <div class="section-card">
             <h5>Payment Method</h5>
@@ -723,6 +852,33 @@ $fpx_banks = [
       if (el && id !== 'cardCvv') el.required = true;
     });
     document.getElementById('cardCvv').required = true;
+
+    document.querySelectorAll('.btn-also-add').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const productId = btn.dataset.productId;
+        const variant = btn.dataset.variant;
+        btn.disabled = true;
+        fetch('cart_action.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `action=add&product_id=${productId}`
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.error) {
+              alert(data.error);
+              btn.disabled = false;
+              return;
+            }
+            if (typeof updateNavCartCount === 'function') updateNavCartCount(data.cart_count);
+            document.getElementById('checkoutForm').submit();
+          })
+          .catch(() => {
+            alert('Could not add item. Please try again.');
+            btn.disabled = false;
+          });
+      });
+    });
   </script>
 </body>
 

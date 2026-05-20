@@ -13,12 +13,12 @@
             </div>
             <div class="col-md-4 mb-4">
                 <h5>Contact</h5>
-                <p>PT 404, Tingkat 1,<br>Bandar Baru Tunjong,<br>Jalan Kuala Krai,<br>15150 Kota Bharu</p>
+                <p>011-5509 8234</p>
+                <p>blankcarfragrance@gmail.com</p>
             </div>
             <div class="col-md-4 mb-4">
                 <h5>Reach Us</h5>
-                <p>011-5509 8234</p>
-                <p>blankcarfragrance@gmail.com</p>
+                <p>PT 404, Tingkat 1,<br>Bandar Baru Tunjong,<br>Jalan Kuala Krai,<br>15150 Kota Bharu</p>
             </div>
         </div>
         <hr>
